@@ -1,0 +1,104 @@
+EXP:4
+1)Character Count: 
+CODE:
+
+string = "The best of both worlds";  
+count = 0;  
+#Counts each character except space  
+for i in range(0, len(string)):  
+    if(string[i] != ' '):  
+        count = count + 1  
+#Displays the total number of characters present in the given string  
+print("Total number of characters in a string: " ,str(count))
+OUTPUT:
+Total number of characters in a string: 19
+
+
+
+2)Bit Stuffing and Destuffing :
+CODE:
+def bit_stuffing(data):
+    stuffed_data = "01111110"
+    count = 0
+
+    for bit in data:
+        if bit == '1':
+            count += 1
+        else:
+            count = 0
+
+        stuffed_data += bit
+        if count == 5:
+            stuffed_data += '0'
+            count = 0
+
+    stuffed_data += "01111110"
+    return stuffed_data
+
+def bit_destuffing(stuffed_data):
+    destuffed_data = ""
+    count = 0
+
+    for bit in stuffed_data[8:-8]:
+        if bit == '1':
+            count += 1
+        else:
+            count = 0
+
+        destuffed_data += bit
+        if count == 5:
+            count = 0
+            continue
+
+    return destuffed_data
+
+# Example Usage:
+data = "01111110011011011110111111111110"
+stuffed_data = bit_stuffing(data)
+destuffed_data = bit_destuffing(stuffed_data)
+
+print("Original Data:", data)
+print("Stuffed Data:", stuffed_data)
+print("Destuffed Data:", destuffed_data)
+OUTPUT:
+Original Data: 01111110011011011110111111111110
+Stuffed Data: 011111100111110100110110111101111101111101001111110
+Destuffed Data: 01111101001101101111011111011111010
+3)Byte Stuffing and Destuffing
+CODE:
+def byte_stuffing(data):
+    stuffed_data = "DLESTX"
+    for byte in data:
+        if byte == "DLE":
+            stuffed_data += "DLE"
+        stuffed_data += byte
+    stuffed_data += "DLEETX"
+    return stuffed_data
+
+def byte_destuffing(stuffed_data):
+    destuffed_data = ""
+    i = 0
+
+    while i < len(stuffed_data):
+        if stuffed_data[i:i+3] == "DLE":
+            destuffed_data += stuffed_data[i+3]
+            i += 4
+        else:
+            destuffed_data += stuffed_data[i]
+            i += 1
+
+    return destuffed_data
+
+# Example Usage:
+data = "ABCDDLEDEFG"
+stuffed_data = byte_stuffing(data)
+destuffed_data = byte_destuffing(stuffed_data)
+
+print("Original Data:", data)
+print("Stuffed Data:", stuffed_data)
+print("Destuffed Data:", destuffed_data)
+OUTPUT:
+Original Data: ABCDDLEDEFG
+Stuffed Data: DLESTXABCDDLEDEFGDLEETX
+Destuffed Data: STXABCDDEFGETX
+
